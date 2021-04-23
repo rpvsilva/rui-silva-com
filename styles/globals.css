@@ -2,8 +2,8 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: "Ubuntu", monospace;
+  height: 2000px;
 }
 
 a {
@@ -13,4 +13,25 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+.container {
+  max-width: 1400px;
+  margin: auto;
+}
+
+.col-12 {
+  width: 100%;
+}
+
+.flex {
+  display: flex;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
 }

@@ -14,7 +14,7 @@ export default function Skills({ label, id }) {
     ]
 
     return (
-        <Box width={[1, null, 2 / 3]} id={id} px={4} pt={1} pb={4} mx="auto">
+        <Box width={[1, null, 2 / 3]} id={id} px={4} pt={1} pb={4} mb={4} mx="auto">
             <Text textAlign="center" as="h2" my={4}>{label}</Text>
             <Flex flexWrap="wrap">
                 {skills.map((skill, index) => (

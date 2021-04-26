@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Flex, Text, Box, Link } from 'rebass';
 import styled from 'styled-components';
 
@@ -31,23 +30,6 @@ export default function Navbar() {
     { label: 'education', goTo: '#education' },
     { label: 'contacts', goTo: '#contacts' }
   ];
-
-  const scrollEvent = e => {
-    navbarItems.map(item => {
-      const element = document.querySelector(item.goTo);
-      if(element) {
-        console.log(item.goTo, element.getBoundingClientRect());
-      }
-    });
-  };
-
-  useEffect(() => {
-    document.addEventListener('scroll', scrollEvent);
-
-    return () => {
-      document.removeEventListener('scroll', scrollEvent);
-    };
-  }, []);
 
   return (
     <Box sx={{ position: 'relative' }} pb={1} backgroundColor="#2c3340">

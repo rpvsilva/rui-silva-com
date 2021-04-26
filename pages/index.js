@@ -8,10 +8,27 @@ const importSection = section => dynamic(() => import(`../components/sections/${
 
 export default function App() {
 
+  // const scrollEvent = e => {
+  //   navbarItems.map(item => {
+  //     const element = document.querySelector(item.goTo);
+  //     if(element) {
+  //       console.log(item.goTo, element.getBoundingClientRect());
+  //     }
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   document.addEventListener('scroll', scrollEvent);
+
+  //   return () => {
+  //     document.removeEventListener('scroll', scrollEvent);
+  //   };
+  // }, []);
+
   const sections = [
     { label: 'about me', id: 'about', component: importSection('About') },
     { label: 'skills', id: 'skills', component: importSection('Skills') },
-    { label: 'experience', id: 'experience', component: null },
+    { label: 'experience', id: 'experience', component: importSection('Experience') },
     { label: 'education', id: 'education', component: null },
     { label: 'contact me', id: 'contacts', component: null }
   ];

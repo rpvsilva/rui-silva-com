@@ -1,18 +1,36 @@
+import React from 'react';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Navbar from '../components/layout/Navbar';
+import { Box, Text } from 'rebass';
+
+const importSection = section => dynamic(() => import(`../components/sections/${section}.js`));
 
 export default function App() {
+
+  const sections = [
+    { label: 'about me', id: 'about', component: importSection('About') },
+    { label: 'skills', id: 'skills', component: importSection('Skills') },
+    { label: 'experience', id: 'experience', component: null },
+    { label: 'education', id: 'education', component: null },
+    { label: 'contact me', id: 'contacts', component: null }
+  ];
+
   return (
-    <div>
+    <Box>
       <Head>
         <title>Rui Silva &bull; Resume Website</title>
         <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet" />
       </Head>
       <Navbar />
 
-      <div id="about">
-        <h2>About me</h2>  
-      </div>
-    </div>
+      <Box>
+        {sections.map((section, index) => (
+          section.component && <Box key={index} mt={0}>
+            {React.createElement(section.component, { label: section.label, id: section.id })}
+          </Box>
+        ))}
+      </Box>
+    </Box>
   );
 }

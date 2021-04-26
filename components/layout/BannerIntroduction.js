@@ -15,23 +15,25 @@ export default function BannerIntroduction() {
     <Box
       backgroundColor="white"
       mx="auto"
-      width={['95%', null, '60%']}
+      width={['95%', null, '70%']}
       p={4}
       sx={{
-        left: 0,
-        right: 0,
-        position: 'absolute',
-        boxShadow: '0 0 4px rgba(0, 0, 0, 0.4)'
+        position: 'relative',
+        boxShadow: '0 0 4px rgba(0, 0, 0, 0.4)',
+        overflowY: 'auto'
       }}
     >
-      <Flex mx={-2}>
-        <Box width={1 / 3} px={2}>
+      <Flex mx={-2} flexWrap="wrap">
+        <Box width={[1, null, 1 / 5]} px={2}>
           <Image
             src={IMAGE_URL}
-            width="100%"
+            width={['50%', null, '100%']}
+            mx="auto"
+            display="block"
+            mb={[4]}
           ></Image>
         </Box>
-        <Box width={2 / 3} px={4}>
+        <Box width={[1, null, 4 / 5]} px={4}>
           <Text as="h1" fontWeight="400" color="black">
             Hi, I'm Rui Silva
           </Text>
@@ -48,11 +50,11 @@ export default function BannerIntroduction() {
             }}
           />
           {profileInformation.map((info, index) => (
-            <Flex key={index} mb="3">
-              <Box width={1 / 2}>
+            <Flex flexWrap="wrap" key={index} mb="3">
+              <Box width={[1, null, 1 / 3]}>
                 <Text as="p">{info.label}</Text>
               </Box>
-              <Box width={1 / 2}>
+              <Box width={[1, null, 2 / 3]}>
                 <Text color="grey" as="p">{info.value}</Text>
               </Box>
             </Flex>

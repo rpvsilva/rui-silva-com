@@ -6,10 +6,11 @@ import BannerIntroduction from './BannerIntroduction';
 
 const BannerBox = styled(Box)`
     height: 350px;
+    width: 100%;
     background-image: url(https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=1920);
     background-size: cover;
     background-position: center center;
-    position: relative;
+    position: absolute;
 
     &:before {
         content: '';
@@ -25,9 +26,9 @@ export default function Navbar() {
   const navbarItems = [
     { label: 'home', goTo: '#home' },
     { label: 'about', goTo: '#about' },
+    { label: 'skills', goTo: '#skills' },
     { label: 'experience', goTo: '#experience' },
     { label: 'education', goTo: '#education' },
-    { label: 'skills', goTo: '#skills' },
     { label: 'contacts', goTo: '#contacts' }
   ];
 
@@ -49,7 +50,8 @@ export default function Navbar() {
   }, []);
 
   return (
-    <BannerBox id="home">
+    <Box sx={{ position: 'relative' }} pb={1} backgroundColor="#2c3340">
+      <BannerBox />
       <Flex
         p={4}
         color='white'
@@ -66,6 +68,6 @@ export default function Navbar() {
         ))}
       </Flex>
       <BannerIntroduction />
-    </BannerBox>
+    </Box>
   );
 }

@@ -79,7 +79,7 @@ export default function Contacts({ label, id }) {
   }
 
   return (
-    <Box id={id} px={4} pt={1} pb={4}>
+    <Box id={id} p={4}>
       <Box my={4} width={[1, null, 2 / 4]} mx="auto">
         <Text color="#2c3340" textAlign="center" as="h2">{label}</Text>
         <Box textAlign="center" width={1} my={3}>

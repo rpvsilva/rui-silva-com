@@ -5,7 +5,7 @@ export default function About({ label, id }) {
   const AGE = differenceInYears(Date.now(), new Date(1998, 3, 3));
 
   return (
-    <Box id={id} px={4} pt={1} pb={4} backgroundColor="#2c3340" textAlign="center">
+    <Box id={id} p={4} backgroundColor="#2c3340" textAlign="center">
       <Box my={4} width={[1, null, 2 / 3]} mx="auto">
         <Text as="h2" my={4} color="white">{label}</Text>
         <Text as="p" color="white">

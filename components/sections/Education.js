@@ -14,7 +14,7 @@ const List = styled.ul`
 export default function Education({ label, id }) {
 
   return (
-    <Box id={id} px={4} pt={1} pb={4} backgroundColor="#2c3340">
+    <Box id={id} p={4} backgroundColor="#2c3340">
       <Box my={4} width={[1, null, 2 / 3]} mx="auto">
         <Text as="h2" color="white"  my={4} textAlign="center">{label}</Text>
         <Flex flexWrap="wrap">

@@ -1,6 +1,7 @@
 import '../styles/globals.css';
 import { ThemeProvider } from '@emotion/react';
 import rebassTheme from '@rebass/preset';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 const theme = {
   ...rebassTheme
@@ -8,9 +9,13 @@ const theme = {
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ThemeProvider theme={theme}>
-      <Component {...pageProps} />
-    </ThemeProvider>
+    <GoogleReCaptchaProvider
+      reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTHA_CLIENT}
+    >
+      <ThemeProvider theme={theme}>
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </GoogleReCaptchaProvider>
   );
 }
 

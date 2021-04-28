@@ -4,6 +4,7 @@ import Icon from '../layout/Icon';
 import styled from 'styled-components';
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 const SocialLink = styled(Link)`
   &:hover {
@@ -34,12 +35,20 @@ const Button = styled(RebassButton)`
   &:hover {
     background-color: rgb(30, 34, 43);
   }
+
+  &:disabled {
+    background-color: rgba(30, 34, 43, 0.4);
+    user-select: none;
+    cursor: default;
+  }
 `;
 
 export default function Contacts({ label, id }) {
 
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [emailMessage, setEmailMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const { executeRecaptcha } = useGoogleReCaptcha()
 
   const socials = [
     { url: 'https://www.linkedin.com/in/silvaruipedro/', icon: 'icon-linkedin' },
@@ -47,8 +56,15 @@ export default function Contacts({ label, id }) {
     { url: 'https://www.instagram.com/ruipedro1998/', icon: 'icon-instagram' },
   ];
 
-  const onSubmit = data => {
-    fetch('/api/contact', { method: 'POST', body: JSON.stringify(data) })
+  const onSubmit = async data => {
+    setLoading(true)
+    fetch('/api/contact', { 
+      method: 'POST', 
+      body: JSON.stringify({
+        ...data,
+        'g-recaptcha-response': await executeRecaptcha("contact")
+      }) 
+    })
       .then(res => res.json())
       .then(({ message }) => {
         setEmailMessage({ success: true, message });
@@ -57,6 +73,7 @@ export default function Contacts({ label, id }) {
         setEmailMessage({ success: false, message });
       })
       .finally(() => {
+        setLoading(false);
         setTimeout(() => setEmailMessage(null), 2000)
       })
   }
@@ -127,7 +144,7 @@ export default function Contacts({ label, id }) {
               {errors.message && <Text as="span">This field is required</Text>}
             </Box>
             <Box width={1} p={2}>
-              <Button>submit</Button>
+              <Button disabled={loading}>submit</Button>
             </Box>
           </Flex>
         </form>

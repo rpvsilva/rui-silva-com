@@ -71,6 +71,15 @@ export default function Navbar() {
 
       // GET ACTIVE ITEM FROM VIEWPORT
       let itemInViewport = null;
+      // if it's in the beginning of the scroll select the first section
+      if(window.scrollY === 0) {
+        return setActiveItem({ id: navbarItems[0].goTo, distance: 0 });
+      }
+      // if it's in the end of the scroll select the last section
+      if((window.scrollY + window.innerHeight) >= document.body.offsetHeight) {
+        return setActiveItem({ id: navbarItems[navbarItems.length - 1].goTo, distance: 0 });
+      }
+
       navbarItems.map(item => {
         const element = document.querySelector(item.goTo);
         if(!element) return;
@@ -82,7 +91,7 @@ export default function Navbar() {
           itemInViewport = { id: item.goTo, distance: boundingClientRect.top };
         }
       });
-  
+
       // if it's the first time it scrolls and different than the previous active item
       if(!activeItem || itemInViewport.id !== activeItem.id) {
         // should do this once, when you enter a new section

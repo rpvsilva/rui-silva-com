@@ -6,7 +6,6 @@ export default function BannerIntroduction() {
 
   const profileInformation = [
     { label: 'Age', value: differenceInYears(Date.now(), new Date(1998, 3, 3)) },
-    { label: 'Email', value: 'ruipedrosilva.1998@gmail.com' },
     { label: 'Nationality', value: 'Portuguese' },
     { label: 'Current job', value: 'xgeeks - Software Engineer' },
   ];
@@ -27,6 +26,7 @@ export default function BannerIntroduction() {
         <Box width={[1, null, 1 / 5]} px={2}>
           <Image
             src={IMAGE_URL}
+            alt={IMAGE_URL}
             width={['50%', null, '100%']}
             mx="auto"
             display="block"

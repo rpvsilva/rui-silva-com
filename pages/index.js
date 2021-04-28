@@ -29,8 +29,8 @@ export default function App() {
     { label: 'about me', id: 'about', component: importSection('About') },
     { label: 'skills', id: 'skills', component: importSection('Skills') },
     { label: 'experience', id: 'experience', component: importSection('Experience') },
-    { label: 'education', id: 'education', component: null },
-    { label: 'contact me', id: 'contacts', component: null }
+    { label: 'education', id: 'education', component: importSection('Education') },
+    { label: 'contact me', id: 'contacts', component: importSection('Contacts') }
   ];
 
   return (
@@ -38,6 +38,7 @@ export default function App() {
       <Head>
         <title>Rui Silva &bull; Resume Website</title>
         <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet" />
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
       </Head>
       <Navbar />
 

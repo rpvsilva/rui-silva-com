@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import { useState } from 'react/cjs/react.development';
-import { Flex, Text, Box, Link as RebassLink } from 'rebass';
+import { Flex, Text, Box } from 'rebass';
 import styled from 'styled-components';
 
 import BannerIntroduction from './BannerIntroduction';
+import NavbarItems from './NavbarItems';
 
 const BannerBox = styled(Box)`
-    height: 350px;
+    height: 21rem;
     width: 100%;
     background-image: url(https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=1920);
     background-size: cover;
@@ -37,13 +38,6 @@ const Nav = styled(Flex)`
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
     padding: 16px 32px;
   `}
-`;
-
-const Link = styled(RebassLink)`
-    ${props => props.active && `
-      border-bottom: 2px solid white;
-      margin-bottom: -2px;
-    `}
 `;
 
 export default function Navbar() {
@@ -106,21 +100,12 @@ export default function Navbar() {
     };
   }, [activeItem]);
 
-  const isItemActive = goTo => {
-    return activeItem && activeItem.id === goTo;
-  };
-
   return (
     <Box id="home" sx={{ position: 'relative' }} pb={1} pt="100px" backgroundColor="#2c3340">
       <BannerBox />
       <Nav scrolled={colorChange}>
-        <Text fontWeight='bold'>rui silva</Text>
-        <Box mx='auto' />
-        {navbarItems.map((item, index) => (
-          <Link mx={2} key={index} variant='nav' href={item.goTo} active={isItemActive(item.goTo)}>
-            {item.label}
-          </Link>
-        ))}
+        <Text flexGrow={1} fontWeight='bold'>rui silva</Text>
+        <NavbarItems scrolled={colorChange} navbarItems={navbarItems} activeItem={activeItem}/>
       </Nav>
       <BannerIntroduction />
     </Box>

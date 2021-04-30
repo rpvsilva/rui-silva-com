@@ -1,20 +1,25 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import Navbar from '../components/layout/Navbar';
-import { Box, Text } from 'rebass';
+import { Box } from 'rebass';
+import { setSections } from '../store/actions'
+import { useDispatch } from 'react-redux';
 
 const importSection = section => dynamic(() => import(`../components/sections/${section}.js`));
 
-export default function App() {
+export default function App({ sectionsProps, ...props }) {
+  
+  const dispatch = useDispatch();
 
-  const sections = [
-    { label: 'about me', id: 'about', component: importSection('About') },
-    { label: 'skills', id: 'skills', component: importSection('Skills') },
-    { label: 'experience', id: 'experience', component: importSection('Experience') },
-    { label: 'education', id: 'education', component: importSection('Education') },
-    { label: 'contact me', id: 'contacts', component: importSection('Contacts') }
-  ];
+  dispatch(setSections(props.sections));
+
+  const sections = props.sections.map(section => {
+    return {
+      ...section,
+      componentName: section.component,
+      component: importSection(section.component)
+    }
+  })
 
   return (
     <Box>
@@ -23,15 +28,52 @@ export default function App() {
         <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet" />
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
       </Head>
-      <Navbar />
 
       <Box>
         {sections.map((section, index) => (
           section.component && <Box key={index} mt={0}>
-            {React.createElement(section.component, { label: section.label, id: section.id })}
+            {React.createElement(section.component, { label: section.label, id: section.section_id, data: sectionsProps[section.componentName] })}
           </Box>
         ))}
       </Box>
     </Box>
   );
+}
+
+export async function getStaticProps() {
+  const sections = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sections`)
+    .then(res => res.json())
+    .then(res => res);
+
+  // sort the section by the order number in CMS
+  sections.sort((a, b) => a.order < b.order ? -1 : 1);
+
+  const promises = [];
+
+  // import each section file
+  sections.map(async section => {
+    if(section.component) {
+      // get the fetchData function to get each request to enrich their content
+      const promise = new Promise(async (resolve) => {
+        const { fetchData } = await import(`../components/sections/${section.component}.js`);
+        if (fetchData) {
+          return resolve({ section: section.component, data: await fetchData() });
+        }
+        return resolve({});
+      })
+      promises.push(promise)
+    }
+  })
+
+  const props = { sections: sections, sectionsProps: {} };
+  await Promise.all(promises).then(response => {
+    response.map(({ section, data }) => {
+      if(!section || !data) return null;
+      props.sectionsProps[section] = data;
+    })
+  })
+
+  return {
+    props: props
+  }
 }

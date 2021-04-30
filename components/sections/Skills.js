@@ -1,26 +1,17 @@
+import { useState } from 'react';
 import { Box, Flex, Text } from 'rebass';
 
-export default function Skills({ label, id }) {
-
-  const skills = [
-    { label: 'VueJS', value: 90 },
-    { label: 'ReactJS', value: 70 },
-    { label: 'NodeJS', value: 80 },
-    { label: 'Graphql', value: 80 },
-    { label: 'AMP (Accelerated Mobile Pages)', value: 90 },
-    { label: 'HTML & CSS', value: 70 },
-    { label: 'Laravel', value: 70 },
-    { label: 'Java', value: 50 }
-  ]
-
+export default function Skills({ label, id, data: skills }) {
+  if(!skills || !skills.length) return <Box></Box>;
+  
   return (
     <Box width={[1, null, 2 / 3]} id={id} p={4} mb={4} mx="auto">
       <Text color="#2c3340" textAlign="center" as="h2" my={4}>{label}</Text>
       <Flex flexWrap="wrap">
-        {skills.map((skill, index) => (
-          <Box width={[1, null, 1 / 2]} key={index} mb={3} px={4}>
+        {skills.map(skill => (
+          <Box width={[1, null, 1 / 2]} key={skill.id} mb={3} px={4}>
             <Flex flexWrap="wrap">
-              <Text sx={{ flexGrow: 1 }} as="p" my={1}>{skill.label}</Text>
+              <Text sx={{ flexGrow: 1 }} as="p" my={1}>{skill.technology.name}</Text>
               <Text as="p" my={1}>{skill.value} %</Text>
             </Flex>
             <Box sx={{ position: 'relative' }} backgroundColor="rgba(44, 51, 64, 0.2)" height={6} width={1}>
@@ -36,4 +27,10 @@ export default function Skills({ label, id }) {
       </Flex>
     </Box>
   )
+}
+
+export async function fetchData() {
+  return fetch(`${process.env.NEXT_PUBLIC_API_URL}/skills`)
+    .then(res => res.json())
+    .then(res => res);
 }

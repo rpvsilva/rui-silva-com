@@ -103,7 +103,10 @@ export default function NavbarItems({ navbarItems, activeItem, scrolled }) {
         <Box as="span"></Box>
         <Box as="span"></Box>
       </Hamburguer>
-      <SideBar open={sideBar} textAlign="right">
+      <SideBar 
+        open={sideBar}
+        textAlign="right"
+      >
         {navbarItems.map((item, index) => (
           <Link
             display="block"

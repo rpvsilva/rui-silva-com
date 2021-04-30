@@ -43,18 +43,12 @@ const Button = styled(RebassButton)`
   }
 `;
 
-export default function Contacts({ label, id }) {
+export default function Contacts({ label, id, data: socials }) {
 
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [emailMessage, setEmailMessage] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { executeRecaptcha } = useGoogleReCaptcha()
-
-  const socials = [
-    { url: 'https://www.linkedin.com/in/silvaruipedro/', icon: 'icon-linkedin' },
-    { url: 'https://github.com/rpvsilva', icon: 'icon-git' },
-    { url: 'https://www.instagram.com/ruipedro1998/', icon: 'icon-instagram' },
-  ];
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const onSubmit = async data => {
     setLoading(true)
@@ -151,4 +145,10 @@ export default function Contacts({ label, id }) {
       </Box>
     </Box>
   );
+}
+
+export async function fetchData() {
+  return fetch(`${process.env.NEXT_PUBLIC_API_URL}/socials`)
+    .then(res => res.json())
+    .then(res => res);
 }

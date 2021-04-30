@@ -1,13 +1,13 @@
-import { useEffect } from 'react';
-import { useState } from 'react/cjs/react.development';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Flex, Text, Box } from 'rebass';
 import styled from 'styled-components';
 
-import BannerIntroduction from './BannerIntroduction';
-import NavbarItems from './NavbarItems';
+import BannerIntroduction from '../layout/BannerIntroduction';
+import NavbarItems from '../layout/NavbarItems';
 
 const BannerBox = styled(Box)`
-    height: 21rem;
+    height: 18rem;
     width: 100%;
     background-image: url(https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=1920);
     background-size: cover;
@@ -40,18 +40,15 @@ const Nav = styled(Flex)`
   `}
 `;
 
-export default function Navbar() {
+export default function Navbar({ data: infos }) {
 
   const [activeItem, setActiveItem] = useState(null);
   const [colorChange, setColorChange] = useState(false);
+  const sections = useSelector(state => state.sections);
 
   const navbarItems = [
     { label: 'home', goTo: '#home' },
-    { label: 'about', goTo: '#about' },
-    { label: 'skills', goTo: '#skills' },
-    { label: 'experience', goTo: '#experience' },
-    { label: 'education', goTo: '#education' },
-    { label: 'contacts', goTo: '#contacts' }
+    ...sections.filter(section => section.showInNavbar).map(section => ({ label: section.label, goTo: `#${section.section_id}` }))
   ];
 
   useEffect(() => {
@@ -87,7 +84,7 @@ export default function Navbar() {
       });
 
       // if it's the first time it scrolls and different than the previous active item
-      if(!activeItem || itemInViewport.id !== activeItem.id) {
+      if(itemInViewport && (!activeItem || itemInViewport.id !== activeItem.id)) {
         // should do this once, when you enter a new section
         setActiveItem(itemInViewport);
       }
@@ -107,7 +104,35 @@ export default function Navbar() {
         <Text flexGrow={1} fontWeight='bold'>rui silva</Text>
         <NavbarItems scrolled={colorChange} navbarItems={navbarItems} activeItem={activeItem}/>
       </Nav>
-      <BannerIntroduction />
+      <BannerIntroduction infos={infos} />
     </Box>
   );
+}
+
+export async function fetchData() {
+  const infos = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/infos`)
+    .then(res => res.json())
+    .then(res => res);
+  
+  let name = "";
+  let role = "";
+
+  const informations = [];
+
+  infos.map(info => {
+    switch(info.label.toLowerCase()) {
+      case 'name': name = info.value;
+      case 'role': role = info.value;
+    }
+
+    if(info.list) {
+      informations.push(info);
+    }
+  })
+
+  return {
+    informations: informations,
+    name: name,
+    role: role
+  }
 }

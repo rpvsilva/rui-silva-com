@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { Flex, Text, Box } from 'rebass';
 import styled from 'styled-components';
+
+import { useStoreValue } from '../../store';
 
 import BannerIntroduction from '../layout/BannerIntroduction';
 import NavbarItems from '../layout/NavbarItems';
@@ -43,7 +44,8 @@ const Nav = styled(Flex)`
 export default function Navbar({ data: infos }) {
   const [activeItem, setActiveItem] = useState(null);
   const [colorChange, setColorChange] = useState(false);
-  const sections = useSelector((state) => state.sections);
+  
+  const [{ sections }] = useStoreValue();
 
   const navbarItems = [
     { label: 'home', goTo: '#home' },

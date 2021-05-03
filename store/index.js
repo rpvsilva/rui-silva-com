@@ -1,7 +1,11 @@
-import { createStore } from 'redux';
-import { createWrapper } from 'next-redux-wrapper';
-import reducers from './reducers';
+import { createContext, useContext, useReducer } from 'react';
 
-const makeStore = () => createStore(reducers);
+const StoreContext = createContext()
 
-export default createWrapper(makeStore);
+export const Store = ({ initialState, reducer, children }) => (
+  <StoreContext.Provider value={useReducer(reducer, initialState)}>
+    {children}
+  </StoreContext.Provider>
+);
+
+export const useStoreValue = () => useContext(StoreContext);

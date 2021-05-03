@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { Box } from 'rebass';
-import { useDispatch } from 'react-redux';
+import { useStoreValue } from '../store'
 import { setSections } from '../store/actions';
 
 const importSection = (section) => dynamic(() => import(`../components/sections/${section}.js`));
 
 export default function App({ sectionsProps, ...props }) {
-  const dispatch = useDispatch();
 
-  dispatch(setSections(props.sections));
+  const [{ sections }, dispatch] = useStoreValue();
 
-  const sections = props.sections.map((section) => ({
+  useEffect(() => {
+    dispatch(setSections(props.sections))
+  }, [])
+
+  const sectionsWithComponents = props.sections.map((section) => ({
     ...section,
     componentName: section.component,
     component: importSection(section.component),
@@ -27,7 +30,7 @@ export default function App({ sectionsProps, ...props }) {
       </Head>
 
       <Box>
-        {sections.map((section) => (
+        {sectionsWithComponents.map((section) => (
           section.component && (
             <Box key={section.id} mt={0}>
               {React.createElement(section.component, { label: section.label, id: section.section_id, data: sectionsProps[section.componentName] })}

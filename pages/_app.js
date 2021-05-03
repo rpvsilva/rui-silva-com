@@ -2,7 +2,8 @@ import '../styles/globals.css';
 import { ThemeProvider } from '@emotion/react';
 import rebassTheme from '@rebass/preset';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
-import wrapper from '../store';
+import { Store } from '../store';
+import { initialState, reducer } from '../store/reducer';
 
 const theme = {
   ...rebassTheme,
@@ -10,12 +11,14 @@ const theme = {
 
 function MyApp({ Component, pageProps }) {
   return (
-    <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTHA_CLIENT}>
-      <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </GoogleReCaptchaProvider>
+    <Store initialState={initialState} reducer={reducer}>
+      <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTHA_CLIENT}>
+        <ThemeProvider theme={theme}>
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </GoogleReCaptchaProvider>
+    </Store>
   );
 }
 
-export default wrapper.withRedux(MyApp, { debug: false });
+export default MyApp;

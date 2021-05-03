@@ -20,8 +20,6 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install
-    - run: npm run build
       env:
         CONTACT_EMAIL: ${{ secrets.CONTACT_EMAIL }}
         EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
@@ -30,3 +28,5 @@ jobs:
         NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
         NEXT_PUBLIC_RECAPTHA_CLIENT: ${{ secrets.NEXT_PUBLIC_RECAPTHA_CLIENT }}
         RECAPTHA_SERVER: ${{ secrets.RECAPTHA_SERVER }}
+    - run: npm install
+    - run: npm run build

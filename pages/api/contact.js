@@ -20,8 +20,8 @@ export default async (req, res) => {
   }
 
   const transporter = createTransport({
-    host: 'mail.privateemail.com',
-    port: 465,
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
     auth: {
       user: process.env.CONTACT_EMAIL,
       pass: process.env.EMAIL_PASSWORD,

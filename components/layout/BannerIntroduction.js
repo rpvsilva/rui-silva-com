@@ -1,6 +1,8 @@
-import { Box, Text, Flex, Image } from 'rebass';
+import {
+  Box, Text, Flex, Image,
+} from 'rebass';
 
-export default function BannerIntroduction({ infos: { informations, name, role} }) {
+export default function BannerIntroduction({ infos: { informations, name, role } }) {
   const IMAGE_URL = 'https://avatars.githubusercontent.com/u/25325644?v=4';
 
   return (
@@ -12,7 +14,7 @@ export default function BannerIntroduction({ infos: { informations, name, role} 
       sx={{
         position: 'relative',
         boxShadow: '0 0 4px rgba(0, 0, 0, 0.4)',
-        overflowY: 'auto'
+        overflowY: 'auto',
       }}
     >
       <Flex mx={-2} flexWrap="wrap">
@@ -24,19 +26,21 @@ export default function BannerIntroduction({ infos: { informations, name, role} 
             mx="auto"
             display="block"
             mb={4}
-          ></Image>
+          />
         </Box>
         <Box width={[1, null, 4 / 5]} px={4}>
           <Text as="h1" fontWeight={400} color="black">
-            Hi, I'm {name}
+            Hi, I'm
+            {' '}
+            {name}
           </Text>
           <Text as="p">
             {role}
           </Text>
-          
-          <Box as='hr' my={3} sx={{ bg: 'gray', border: 0, height: 1 }} />
 
-          {informations.map(info => (
+          <Box as="hr" my={3} sx={{ bg: 'gray', border: 0, height: 1 }} />
+
+          {informations.map((info) => (
             <Flex flexWrap="wrap" key={info.id} mb={3}>
               <Box width={[1, null, 1 / 3]}>
                 <Text as="p">{info.label}</Text>

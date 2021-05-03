@@ -1,11 +1,11 @@
-import wrapper from '../store';
 import '../styles/globals.css';
 import { ThemeProvider } from '@emotion/react';
 import rebassTheme from '@rebass/preset';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+import wrapper from '../store';
 
 const theme = {
-  ...rebassTheme
+  ...rebassTheme,
 };
 
 function MyApp({ Component, pageProps }) {

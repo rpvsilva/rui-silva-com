@@ -1,10 +1,12 @@
-import { Box, Flex, Link, Text, Button as RebassButton } from "rebass";
+import {
+  Box, Flex, Link, Text, Button as RebassButton,
+} from 'rebass';
 import { Input as RebassInput, Label, Textarea as RebassTextarea } from '@rebass/forms';
-import Icon from '../layout/Icon';
 import styled from 'styled-components';
-import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import Icon from '../layout/Icon';
 
 const SocialLink = styled(Link)`
   &:hover {
@@ -44,22 +46,21 @@ const Button = styled(RebassButton)`
 `;
 
 export default function Contacts({ label, id, data: socials }) {
-
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [emailMessage, setEmailMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const { executeRecaptcha } = useGoogleReCaptcha();
 
-  const onSubmit = async data => {
-    setLoading(true)
-    fetch('/api/contact', { 
-      method: 'POST', 
+  const onSubmit = async (data) => {
+    setLoading(true);
+    fetch('/api/contact', {
+      method: 'POST',
       body: JSON.stringify({
         ...data,
-        'g-recaptcha-response': await executeRecaptcha("contact")
-      }) 
+        'g-recaptcha-response': await executeRecaptcha('contact'),
+      }),
     })
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(({ message }) => {
         setEmailMessage({ success: true, message });
       })
@@ -68,9 +69,9 @@ export default function Contacts({ label, id, data: socials }) {
       })
       .finally(() => {
         setLoading(false);
-        setTimeout(() => setEmailMessage(null), 2000)
-      })
-  }
+        setTimeout(() => setEmailMessage(null), 2000);
+      });
+  };
 
   return (
     <Box id={id} p={4}>
@@ -94,17 +95,22 @@ export default function Contacts({ label, id, data: socials }) {
             </SocialLink>
           ))}
         </Box>
-        {emailMessage && 
-          <Box p={2}>
-            <Box width="100%" p={4} sx={{
-              border: '1px solid',
-              borderColor: emailMessage.success ? 'green' : 'red',
-              backgroundColor: emailMessage.success ? '#baf3ba' : '#ecd4d4'
-            }}>
-              <Text as="p">{emailMessage.message}</Text>
+        {emailMessage
+          && (
+            <Box p={2}>
+              <Box
+                width="100%"
+                p={4}
+                sx={{
+                  border: '1px solid',
+                  borderColor: emailMessage.success ? 'green' : 'red',
+                  backgroundColor: emailMessage.success ? '#baf3ba' : '#ecd4d4',
+                }}
+              >
+                <Text as="p">{emailMessage.message}</Text>
+              </Box>
             </Box>
-          </Box>
-        }
+          )}
         <form onSubmit={handleSubmit(onSubmit)}>
           <Flex flexWrap="wrap">
             <Box width={[1, null, 1 / 2]} p={2}>
@@ -113,7 +119,7 @@ export default function Contacts({ label, id, data: socials }) {
                 id="name"
                 type="text"
                 width="100%"
-                {...register("name", { required: true, pattern: /^[A-Za-z ]+$/i })}
+                {...register('name', { required: true, pattern: /^[A-Za-z ]+$/i })}
               />
               {errors.name && <Text as="span">This field is required</Text>}
             </Box>
@@ -123,7 +129,7 @@ export default function Contacts({ label, id, data: socials }) {
                 id="email"
                 type="email"
                 width="100%"
-                {...register("email", { required: true })}
+                {...register('email', { required: true })}
               />
               {errors.email && <Text as="span">This field is required</Text>}
             </Box>
@@ -133,7 +139,7 @@ export default function Contacts({ label, id, data: socials }) {
                 id="message"
                 width="100%"
                 maxWidth="100%"
-                {...register("message", { required: true })}
+                {...register('message', { required: true })}
               />
               {errors.message && <Text as="span">This field is required</Text>}
             </Box>
@@ -149,6 +155,6 @@ export default function Contacts({ label, id, data: socials }) {
 
 export async function fetchData() {
   return fetch(`${process.env.NEXT_PUBLIC_API_URL}/socials`)
-    .then(res => res.json())
-    .then(res => res);
+    .then((res) => res.json())
+    .then((res) => res);
 }

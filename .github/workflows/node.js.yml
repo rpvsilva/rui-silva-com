@@ -31,6 +31,8 @@ jobs:
         NEXT_PUBLIC_RECAPTHA_CLIENT: ${{ secrets.NEXT_PUBLIC_RECAPTHA_CLIENT }}
         RECAPTHA_SERVER: ${{ secrets.RECAPTHA_SERVER }}
   deploy:
+    needs: build
+    if: ${{ github.ref == 'main' }}
     runs-on: ubuntu-20.04
     steps:
     - name: Push to server

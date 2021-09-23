@@ -4,9 +4,12 @@ const fetch = require('node-fetch');
 
 const RECAPTCH_MINIMUM_SCORE = 0.5;
 
-const checkRecaptchaToken = (token) => fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTHA_SERVER}&response=${token}`)
-  .then((res) => res.json())
-  .then((response) => response);
+const checkRecaptchaToken = (token) =>
+  fetch(
+    `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTHA_SERVER}&response=${token}`
+  )
+    .then((res) => res.json())
+    .then((response) => response);
 
 export default async (req, res) => {
   if (!req.body) return res.status(402).json({ message: 'No fields provided' });
@@ -16,7 +19,9 @@ export default async (req, res) => {
   const response = await checkRecaptchaToken(req.body['g-recaptcha-response']);
 
   if (!response.success || response.score < RECAPTCH_MINIMUM_SCORE) {
-    return res.status(500).json({ message: 'Couldn\'t send the email, try again later' });
+    return res
+      .status(500)
+      .json({ message: "Couldn't send the email, try again later" });
   }
 
   const transporter = createTransport({
@@ -39,6 +44,8 @@ export default async (req, res) => {
     if (!err) {
       return res.status(200).json({ message: 'Email sent successfully' });
     }
-    return res.status(500).json({ message: 'Couldn\'t send the email, try again later' });
+    return res
+      .status(500)
+      .json({ message: "Couldn't send the email, try again later" });
   });
 };

@@ -6,19 +6,26 @@ export default function Skills({ label, id, data: skills }) {
 
   return (
     <Box width={[1, null, 2 / 3]} id={id} p={4} mb={4} mx="auto">
-      <Text color="#2c3340" textAlign="center" as="h2" my={4}>{label}</Text>
+      <Text color="#2c3340" textAlign="center" as="h2" my={4}>
+        {label}
+      </Text>
       <Flex flexWrap="wrap">
         {skills.map((skill) => (
           <Box width={[1, null, 1 / 2]} key={skill.id} mb={3} px={4}>
             <Flex flexWrap="wrap">
-              <Text sx={{ flexGrow: 1 }} as="p" my={1}>{skill.technology.name}</Text>
+              <Text sx={{ flexGrow: 1 }} as="p" my={1}>
+                {skill.technology.name}
+              </Text>
               <Text as="p" my={1}>
-                {skill.value}
-                {' '}
-                %
+                {skill.value} %
               </Text>
             </Flex>
-            <Box sx={{ position: 'relative' }} backgroundColor="rgba(44, 51, 64, 0.2)" height={6} width={1}>
+            <Box
+              sx={{ position: 'relative' }}
+              backgroundColor="rgba(44, 51, 64, 0.2)"
+              height={6}
+              width={1}
+            >
               <Box
                 sx={{ position: 'absolute', top: 0, left: 0 }}
                 height="100%"

@@ -1,9 +1,14 @@
-import {
-  Box, Text, Flex, Image,
-} from 'rebass';
+import { Information } from 'components/sections/Navbar';
+import { IMAGE_URL } from 'constants/index';
+import React from 'react';
+import { Box, Flex, Image, Text } from 'rebass';
 
-export default function BannerIntroduction({ infos: { informations, name, role } }) {
-  const IMAGE_URL = 'https://avatars.githubusercontent.com/u/25325644?v=4';
+type Props = {
+  information: Information
+}
+
+const BannerIntroduction = ({ information }: Props) => {
+  const { name, role, informations } = information;
 
   return (
     <Box
@@ -30,13 +35,9 @@ export default function BannerIntroduction({ infos: { informations, name, role }
         </Box>
         <Box width={[1, null, 4 / 5]} px={4}>
           <Text as="h1" fontWeight={400} color="black">
-            Hi, I'm
-            {' '}
-            {name}
+            Hi, I'm {name}
           </Text>
-          <Text as="p">
-            {role}
-          </Text>
+          <Text as="p">{role}</Text>
 
           <Box as="hr" my={3} sx={{ bg: 'gray', border: 0, height: 1 }} />
 
@@ -46,7 +47,9 @@ export default function BannerIntroduction({ infos: { informations, name, role }
                 <Text as="p">{info.label}</Text>
               </Box>
               <Box width={[1, null, 2 / 3]}>
-                <Text color="grey" as="p">{info.value}</Text>
+                <Text color="grey" as="p">
+                  {info.value}
+                </Text>
               </Box>
             </Flex>
           ))}
@@ -54,4 +57,6 @@ export default function BannerIntroduction({ infos: { informations, name, role }
       </Flex>
     </Box>
   );
-}
+};
+
+export default BannerIntroduction;

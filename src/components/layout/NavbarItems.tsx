@@ -17,15 +17,16 @@ const Hamburguer = styled(Box)`
     background: white;
     z-index: 1;
     transform-origin: 4px 0px;
-    transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-                background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-                opacity 0.55s ease;
+    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
+      background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
   }
-  
+
   span:nth-last-child(1) {
     transform-origin: 0% 100%;
   }
-  ${(props) => props.open && `
+  ${(props) =>
+    props.open &&
+    `
     span:nth-last-child(3) {
       transform: rotate(45deg) translate(-2px, -1px);
     }
@@ -42,30 +43,34 @@ const Hamburguer = styled(Box)`
 `;
 
 const SideBar = styled(Box)`
-    position: fixed;
-    background-color: #2c3340;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
-    right: 0;
-    top: 0;
-    height: 100%;
-    width: 0;
-    transition: width 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
-    padding-top: 82px;
-    z-index: 9999;
+  position: fixed;
+  background-color: #2c3340;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 0;
+  transition: width 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+  padding-top: 82px;
+  z-index: 9999;
 
-    ${(props) => props.open && `
+  ${(props) =>
+    props.open &&
+    `
       width: 250px;
     `}
 `;
 
 const Link = styled(RebassLink)`
-  ${(props) => props.active && `
+  ${(props) =>
+    props.active &&
+    `
     border-bottom: 2px solid white;
     margin-bottom: -2px;
   `}
 `;
 
-export default function NavbarItems({ navbarItems, activeItem, scrolled }) {
+const NavbarItems = ({ navbarItems, activeItem, scrolled }) => {
   const [sideBar, setSideBar] = useState(false);
 
   const isItemActive = (goTo) => activeItem && activeItem.id === goTo;
@@ -80,7 +85,13 @@ export default function NavbarItems({ navbarItems, activeItem, scrolled }) {
         }}
       >
         {navbarItems.map((item, index) => (
-          <Link mx={2} key={index} variant="nav" href={item.goTo} active={isItemActive(item.goTo)}>
+          <Link
+            mx={2}
+            key={index}
+            variant="nav"
+            href={item.goTo}
+            active={isItemActive(item.goTo)}
+          >
             {item.label}
           </Link>
         ))}
@@ -99,10 +110,7 @@ export default function NavbarItems({ navbarItems, activeItem, scrolled }) {
         <Box as="span" />
         <Box as="span" />
       </Hamburguer>
-      <SideBar
-        open={sideBar}
-        textAlign="right"
-      >
+      <SideBar open={sideBar} textAlign="right">
         {navbarItems.map((item, index) => (
           <Link
             display="block"
@@ -130,4 +138,6 @@ export default function NavbarItems({ navbarItems, activeItem, scrolled }) {
       />
     </Box>
   );
-}
+};
+
+export default NavbarItems;

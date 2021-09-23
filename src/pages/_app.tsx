@@ -1,18 +1,18 @@
-import '../styles/globals.css';
+import 'styles/globals.css';
 import { ThemeProvider } from '@emotion/react';
 import rebassTheme from '@rebass/preset';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { Store } from '../store';
-import { initialState, reducer } from '../store/reducer';
+import { initialState } from '../store/reducer';
 
-const theme = {
-  ...rebassTheme,
-};
+const theme = { ...rebassTheme };
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Store initialState={initialState} reducer={reducer}>
-      <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTHA_CLIENT}>
+    <Store initialState={initialState}>
+      <GoogleReCaptchaProvider
+        reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTHA_CLIENT}
+      >
         <ThemeProvider theme={theme}>
           <Component {...pageProps} />
         </ThemeProvider>

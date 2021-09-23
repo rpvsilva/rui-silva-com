@@ -1,12 +1,16 @@
+import { Box, Flex, Link, Button as RebassButton, Text } from 'rebass';
 import {
-  Box, Flex, Link, Text, Button as RebassButton,
-} from 'rebass';
-import { Input as RebassInput, Label, Textarea as RebassTextarea } from '@rebass/forms';
+  Label,
+  Input as RebassInput,
+  Textarea as RebassTextarea,
+} from '@rebass/forms';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import Icon from '../layout/Icon';
+import { Props } from 'types';
+import { useFetcher } from 'hooks/useFetcher';
 
 const SocialLink = styled(Link)`
   &:hover {
@@ -45,8 +49,21 @@ const Button = styled(RebassButton)`
   }
 `;
 
-export default function Contacts({ label, id, data: socials }) {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+type Socials = {
+  id: number;
+  url: string;
+  icon: string;
+  published_at: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export default function Contacts({ id, data: socials, label }: Props<Socials[]>) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [emailMessage, setEmailMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const { executeRecaptcha } = useGoogleReCaptcha();
@@ -76,7 +93,9 @@ export default function Contacts({ label, id, data: socials }) {
   return (
     <Box id={id} p={4}>
       <Box my={4} width={[1, null, 2 / 4]} mx="auto">
-        <Text color="#2c3340" textAlign="center" as="h2">{label}</Text>
+        <Text color="#2c3340" textAlign="center" as="h2">
+          {label}
+        </Text>
         <Box textAlign="center" width={1} my={3}>
           {socials.map((social, index) => (
             <SocialLink
@@ -89,28 +108,25 @@ export default function Contacts({ label, id, data: socials }) {
               lineHeight={0}
               target="_blank"
             >
-              <Icon
-                icon={social.icon}
-              />
+              <Icon icon={social.icon} />
             </SocialLink>
           ))}
         </Box>
-        {emailMessage
-          && (
-            <Box p={2}>
-              <Box
-                width="100%"
-                p={4}
-                sx={{
-                  border: '1px solid',
-                  borderColor: emailMessage.success ? 'green' : 'red',
-                  backgroundColor: emailMessage.success ? '#baf3ba' : '#ecd4d4',
-                }}
-              >
-                <Text as="p">{emailMessage.message}</Text>
-              </Box>
+        {emailMessage && (
+          <Box p={2}>
+            <Box
+              width="100%"
+              p={4}
+              sx={{
+                border: '1px solid',
+                borderColor: emailMessage.success ? 'green' : 'red',
+                backgroundColor: emailMessage.success ? '#baf3ba' : '#ecd4d4',
+              }}
+            >
+              <Text as="p">{emailMessage.message}</Text>
             </Box>
-          )}
+          </Box>
+        )}
         <form onSubmit={handleSubmit(onSubmit)}>
           <Flex flexWrap="wrap">
             <Box width={[1, null, 1 / 2]} p={2}>
@@ -119,7 +135,10 @@ export default function Contacts({ label, id, data: socials }) {
                 id="name"
                 type="text"
                 width="100%"
-                {...register('name', { required: true, pattern: /^[A-Za-z ]+$/i })}
+                {...register('name', {
+                  required: true,
+                  pattern: /^[A-Za-z ]+$/i,
+                })}
               />
               {errors.name && <Text as="span">This field is required</Text>}
             </Box>
@@ -153,8 +172,6 @@ export default function Contacts({ label, id, data: socials }) {
   );
 }
 
-export async function fetchData() {
-  return fetch(`${process.env.NEXT_PUBLIC_API_URL}/socials`)
-    .then((res) => res.json())
-    .then((res) => res);
+export function fetchData() {
+  return useFetcher<Socials[]>('/socials');
 }
